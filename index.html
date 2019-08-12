@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!--TOPIC : img tag with srcset & size attributes -->
+    <!-- used for displaying larger higher resolution images -->
+    <!-- - NOTE: Chrome cache the highest quality image and always show it, even after resize the window down -->
+
+    <!-- ALT: srcset with width (w) descriptor and without size attribute -->
+    <!-- when without the size attribute, will select the best image based in the width of the entire viewport  -->
+    <!-- will select the image with the same width or higher width than current viewport  -->
+    <h1>srcset, w descriptor</h1>
+    <img
+      class="a"
+      src="img/600.jpg"
+      srcset="
+        img/600.jpg   600w,
+        img/800.jpg   800w,
+        img/1200.jpg 1200w,
+        img/1600.jpg 1600w,
+        img/2400.jpg 2400w
+      "
+      alt=""
+    />
+    <hr />
+
+    <!-- ALT: srcset with width descriptor & sizes attribute -->
+    <!-- last sizes attribute specifies what happens when no condition is met -->
+    <!--  if you specify srcset but not sizes, “100vw” is the assumed value -->
+    <h1>srcset, w descriptor, sizes</h1>
+    <img
+      class="b"
+      src="img/600.jpg"
+      srcset="img/600.jpg 600w, img/800.jpg 800w, img/1200.jpg 1200w"
+      sizes="(max-width:800px) 100vw, 50vw"
+    />
+
+    <hr />
+
+    <!-- ALT: srcset with pixel density descriptor descriptor and without size attribute -->
+    <!-- same image (same width and height in CSS pixels) to be displayed across all devices, but I want to display it in a higher resolution on devices which can support it  -->
+    <h1>src, pixel density descriptor</h1>
+    <img
+      class="c"
+      src="img/bee-600.jpg"
+      srcset="img/600.jpg 1x, img/1200.jpg 2x, img/2400.jpg 3x"
+      alt=""
+      sizes="(min-width: 900px) 66vw, (min-width: 600px) 50vw, 100vw"
+    />
+    <hr />
+
+    <!-- TOPIC: picture tag -->
+    <!-- used for art direction and progressive enhacement -->
+    <!-- the browser will consider each child <source> element and choose the best match among them; if no matches are found, the URL of the <img> element's src attribute is selected. The selected image is then presented in the space occupied by the <img> element -->
+    <!-- if need to select in JS, select by using the img tag -->
+    <!-- use case: if I’m doubtful that if I use the same image for a smaller       screen size, the primary
+    subject of my image may become too small in size. I want to display a different image (more focused
+    on the primary subject) in a different screen size, but I still want to display separate assets
+    of the same image based on device-pixel ratio, and I want to customize height and width of the image based on viewport. -->
+    <h1>picture</h1>
+    <picture>
+      <!-- square -->
+      <source
+        media="(max-width:600px)"
+        srcset="
+          img/cat-small@1x.jpg 1x,
+          img/cat-small@2x.jpg 2x,
+          img/cat-small@3x.jpg 3x
+        "
+      />
+      <!-- portrait -->
+      <source
+        media="(max-width:900px)"
+        srcset="
+          img/cat-medium@1x.jpg 1x,
+          img/cat-medium@2x.jpg 2x,
+          img/cat-medium@3x.jpg 3x
+        "
+      />
+      <!-- landscape -->
+      <source
+        srcset="
+          img/cat-large@1x.jpg 1x,
+          img/cat-large@2x.jpg 2x,
+          img/cat-large@3x.jpg 3x
+        "
+      />
+      <img class="d" src="img/cat-medium@1x.jpg" alt="" />
+    </picture>
+
+    <script src="script.js"></script>
+  </body>
+</html>
